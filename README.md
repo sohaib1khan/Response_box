@@ -40,7 +40,7 @@ pip install pyinstaller
 1. **Clone the Repository**:
 
    ```bash
-   git clone  REPO
+   git clone https://github.com/sohaib1khan/Response_box.git
    cd canned-response-manager
    ```
 
