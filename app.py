@@ -84,6 +84,8 @@ def maximize_window():
 # Main application window
 root = tk.Tk()
 root.title("Canned Response Manager")
+root.geometry("600x400")  # Resize the window
+root.configure(bg="#2B2B2B")  # Set background color to dark gray
 
 # Menu bar for window control
 menu_bar = tk.Menu(root)
@@ -98,24 +100,31 @@ root.config(menu=menu_bar)
 responses = load_responses()
 
 # UI Elements
-frame = tk.Frame(root)
-frame.pack(pady=10)
+frame = tk.Frame(root, bg="#2B2B2B")
+frame.pack(pady=10, fill=tk.BOTH, expand=True)
 
-listbox = tk.Listbox(frame, width=40, height=10)
-listbox.pack(side=tk.LEFT, padx=5)
+listbox = tk.Listbox(frame, width=50, height=15, bg="#1E1E1E", fg="#FFFFFF", selectbackground="#3E64FF", selectforeground="#FFFFFF")
+listbox.pack(side=tk.LEFT, padx=5, fill=tk.BOTH, expand=True)
 
 scrollbar = tk.Scrollbar(frame, orient=tk.VERTICAL, command=listbox.yview)
 scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
 listbox.config(yscrollcommand=scrollbar.set)
 
-button_frame = tk.Frame(root)
+button_frame = tk.Frame(root, bg="#2B2B2B")
 button_frame.pack(pady=10)
 
-tk.Button(button_frame, text="Add", command=add_response).grid(row=0, column=0, padx=5)
-tk.Button(button_frame, text="Edit", command=edit_response).grid(row=0, column=1, padx=5)
-tk.Button(button_frame, text="Delete", command=delete_response).grid(row=0, column=2, padx=5)
-tk.Button(button_frame, text="Copy", command=copy_response).grid(row=0, column=3, padx=5)
+btn_add = tk.Button(button_frame, text="Add", command=add_response, bg="#3E64FF", fg="#FFFFFF", width=10)
+btn_add.grid(row=0, column=0, padx=5)
+
+btn_edit = tk.Button(button_frame, text="Edit", command=edit_response, bg="#3E64FF", fg="#FFFFFF", width=10)
+btn_edit.grid(row=0, column=1, padx=5)
+
+btn_delete = tk.Button(button_frame, text="Delete", command=delete_response, bg="#3E64FF", fg="#FFFFFF", width=10)
+btn_delete.grid(row=0, column=2, padx=5)
+
+btn_copy = tk.Button(button_frame, text="Copy", command=copy_response, bg="#3E64FF", fg="#FFFFFF", width=10)
+btn_copy.grid(row=0, column=3, padx=5)
 
 # Populate listbox
 update_listbox()
