@@ -72,6 +72,8 @@ You can create a standalone executable for the application so it can be run with
 
    ```bash
    pyinstaller --onefile --noconsole app.py
+   or
+   pyinstaller --onefile --noconsole --icon=app_icon.ico app.py
    ```
 
    - `--onefile`: Packages everything into a single file.
