@@ -67,19 +67,52 @@ def copy_response():
     root.update()
     messagebox.showinfo("Copied", "Response copied to clipboard!")
 
+# Preview response
+def preview_response():
+    key = listbox.get(tk.ACTIVE)
+    if not key:
+        messagebox.showerror("Error", "No response selected!")
+        return
+    response = responses[key]
+    messagebox.showinfo("Preview Response", f"Key: {key}\nResponse: {response}")
+
+# Search responses
+def search_responses():
+    query = search_entry.get()
+    if not query:
+        update_listbox()
+        return
+    listbox.delete(0, tk.END)
+    for key in responses:
+        if query.lower() in key.lower() or query.lower() in responses[key].lower():
+            listbox.insert(tk.END, key)
+
+# Export responses to file
+def export_responses():
+    export_file = simpledialog.askstring("Export", "Enter filename for export (e.g., export.json):")
+    if export_file:
+        with open(export_file, "w") as f:
+            json.dump(responses, f, indent=4)
+        messagebox.showinfo("Export", f"Responses exported to {export_file}")
+
+# Import responses from file
+def import_responses():
+    import_file = simpledialog.askstring("Import", "Enter filename to import (e.g., import.json):")
+    if import_file and os.path.exists(import_file):
+        with open(import_file, "r") as f:
+            imported_responses = json.load(f)
+            responses.update(imported_responses)
+            save_responses(responses)
+            update_listbox()
+        messagebox.showinfo("Import", f"Responses imported from {import_file}")
+    else:
+        messagebox.showerror("Error", "File does not exist.")
+
 # Update the listbox with current responses
 def update_listbox():
     listbox.delete(0, tk.END)
     for key in responses:
         listbox.insert(tk.END, key)
-
-# Minimize the window
-def minimize_window():
-    root.iconify()
-
-# Maximize the window
-def maximize_window():
-    root.state('zoomed')
 
 # Main application window
 root = tk.Tk()
@@ -87,17 +120,21 @@ root.title("Canned Response Manager")
 root.geometry("600x400")  # Resize the window
 root.configure(bg="#2B2B2B")  # Set background color to dark gray
 
-# Menu bar for window control
-menu_bar = tk.Menu(root)
-window_menu = tk.Menu(menu_bar, tearoff=0)
-window_menu.add_command(label="Minimize", command=minimize_window)
-window_menu.add_command(label="Maximize", command=maximize_window)
-window_menu.add_command(label="Close", command=root.quit)
-menu_bar.add_cascade(label="Window", menu=window_menu)
-root.config(menu=menu_bar)
-
 # Load existing responses
 responses = load_responses()
+
+# Search bar frame
+search_frame = tk.Frame(root, bg="#2B2B2B")
+search_frame.pack(pady=5)
+
+search_label = tk.Label(search_frame, text="Search:", bg="#2B2B2B", fg="#FFFFFF")
+search_label.pack(side=tk.LEFT, padx=5)
+
+search_entry = tk.Entry(search_frame, width=40, bg="#1E1E1E", fg="#FFFFFF", insertbackground="#FFFFFF")
+search_entry.pack(side=tk.LEFT, padx=5)
+
+search_button = tk.Button(search_frame, text="Go", command=search_responses, bg="#3E64FF", fg="#FFFFFF")
+search_button.pack(side=tk.LEFT, padx=5)
 
 # UI Elements
 frame = tk.Frame(root, bg="#2B2B2B")
@@ -125,6 +162,9 @@ btn_delete.grid(row=0, column=2, padx=5)
 
 btn_copy = tk.Button(button_frame, text="Copy", command=copy_response, bg="#3E64FF", fg="#FFFFFF", width=10)
 btn_copy.grid(row=0, column=3, padx=5)
+
+btn_preview = tk.Button(button_frame, text="Preview", command=preview_response, bg="#3E64FF", fg="#FFFFFF", width=10)
+btn_preview.grid(row=0, column=4, padx=5)
 
 # Populate listbox
 update_listbox()
