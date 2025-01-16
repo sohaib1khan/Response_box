@@ -18,6 +18,8 @@ check_python() {
 install_libraries() {
     echo "Installing required Python libraries..."
     $PIP install --upgrade pip
+    $PIP install fuzzywuzzy
+    $PIP install python-Levenshtein
     $PIP install pyinstaller
 }
 
