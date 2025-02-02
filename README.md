@@ -28,10 +28,12 @@ If you want to bundle the app into an executable, you’ll also need:
 
 - `PyInstaller`
 
-Install PyInstaller using pip:
+Install PyInstaller & tk using pip:
 
 ```bash
+python3 -m venv venv  && source venv/bin/activate
 pip install pyinstaller
+pip install tk
 ```
 
 ---
@@ -50,6 +52,7 @@ pip install pyinstaller
    Ensure you have Python installed (version 3.6 or higher):
 
    ```bash
+   
    python3 app.py
    ```
 
