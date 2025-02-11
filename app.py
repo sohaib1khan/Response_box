@@ -65,7 +65,18 @@ def copy_response():
     root.clipboard_clear()
     root.clipboard_append(response)
     root.update()
-    messagebox.showinfo("Copied", "Response copied to clipboard!")
+    
+    # Create an auto-closing popup message
+    popup = tk.Toplevel(root)
+    popup.title("Copied")
+    popup.geometry("300x100")
+    popup.configure(bg="#2B2B2B")
+
+    label = tk.Label(popup, text="Response copied to clipboard!", fg="#FFFFFF", bg="#2B2B2B", font=("Arial", 12))
+    label.pack(pady=20)
+
+    popup.after(10000, popup.destroy)  # Close after 10 seconds (change to 30000 for 30 seconds)
+
 
 # Preview response
 def preview_response():
